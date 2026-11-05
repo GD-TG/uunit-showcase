@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  ShieldCheck, 
+  Shield, 
   Check, 
   X, 
-  AlertTriangle, 
   History, 
-  Building2, 
-  FileText,
-  Lock,
-  UserCheck
+  Building, 
+  FileText
 } from 'lucide-react';
 import api from '../api';
 
@@ -46,139 +43,127 @@ export const ModerationAudit: React.FC = () => {
   const handleModerateCase = async (caseId: number, status: string) => {
     try {
       await api.post(`/cases/${caseId}/moderate?status=${status}`);
-      alert(`Кейс успешно обновлен со статусом: ${status}`);
+      alert(`Статус кейса изменён: ${status}`);
       loadData();
     } catch (e: any) {
-      alert(e.response?.data?.detail || 'Ошибка модерации кейса');
+      alert(e.response?.data?.detail || 'Ошибка модерации');
     }
   };
 
   const handleModerateCompany = async (companyId: number, approve: boolean) => {
     try {
       await api.post(`/companies/${companyId}/moderate?approve=${approve}`);
-      alert(approve ? 'Компания одобрена для публикации кейсов!' : 'Компания отклонена');
+      alert(approve ? 'Компания аккредитована в УУНиТ' : 'Отклонено');
       loadData();
     } catch (e: any) {
-      alert(e.response?.data?.detail || 'Ошибка модерации компании');
+      alert(e.response?.data?.detail || 'Ошибка модерации');
     }
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       
-      {/* Header */}
-      <div className="p-8 rounded-3xl fable-glass border border-white/10 space-y-2">
-        <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-purple-500/10 text-purple-400 text-xs font-semibold">
-          <ShieldCheck className="w-3.5 h-3.5" />
-          <span>Панель сотрудника и администратора УУНиТ (п. 5.23, 5.26 ТЗ)</span>
+      {/* Subheader */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[#1E293B] gap-2">
+        <div>
+          <div className="text-xs font-mono text-slate-400">Служебный контур УУНиТ / Административный контроль</div>
+          <h1 className="text-xl font-bold text-white tracking-tight mt-0.5">
+            Модерация кейсов, аккредитация компаний и аудит
+          </h1>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-          Модерация контента и журнал аудита
-        </h1>
-        <p className="text-xs sm:text-sm text-slate-400 max-w-2xl">
-          Проверка юридических лиц, согласование кейсов перед публикацией и сквозной аудит критических операций системы.
-        </p>
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center space-x-2 border-b border-white/10 pb-2">
+      <div className="flex items-center space-x-1.5 font-mono text-xs border-b border-[#1E293B] pb-2">
         <button
           onClick={() => setActiveTab('cases')}
-          className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-bold transition ${
-            activeTab === 'cases' ? 'bg-indigo-600/20 text-indigo-300 border border-indigo-500/30' : 'text-slate-400 hover:text-white'
+          className={`px-3 py-1.5 rounded-md transition ${
+            activeTab === 'cases' ? 'bg-[#1E293B] text-white' : 'text-slate-400 hover:text-white'
           }`}
         >
-          <FileText className="w-4 h-4" />
-          <span>Модерация кейсов</span>
+          Модерация кейсов
         </button>
-
         <button
           onClick={() => setActiveTab('companies')}
-          className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-bold transition ${
-            activeTab === 'companies' ? 'bg-indigo-600/20 text-indigo-300 border border-indigo-500/30' : 'text-slate-400 hover:text-white'
+          className={`px-3 py-1.5 rounded-md transition ${
+            activeTab === 'companies' ? 'bg-[#1E293B] text-white' : 'text-slate-400 hover:text-white'
           }`}
         >
-          <Building2 className="w-4 h-4" />
-          <span>Верификация компаний</span>
+          Аккредитация компаний
         </button>
-
         <button
           onClick={() => setActiveTab('audit')}
-          className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-bold transition ${
-            activeTab === 'audit' ? 'bg-indigo-600/20 text-indigo-300 border border-indigo-500/30' : 'text-slate-400 hover:text-white'
+          className={`px-3 py-1.5 rounded-md transition ${
+            activeTab === 'audit' ? 'bg-[#1E293B] text-white' : 'text-slate-400 hover:text-white'
           }`}
         >
-          <History className="w-4 h-4" />
-          <span>Журнал действий (Аудит-лог)</span>
+          Журнал аудита (Audit Log)
         </button>
       </div>
 
       {/* Content */}
       {loading ? (
-        <div className="text-center py-20 text-slate-500 text-xs">Загрузка данных модерации...</div>
+        <div className="text-center py-16 text-slate-500 font-mono text-xs">Загрузка данных...</div>
       ) : activeTab === 'cases' ? (
-        <div className="space-y-4">
+        <div className="space-y-2.5">
           {cases.map((c) => (
-            <div key={c.id} className="p-5 rounded-2xl fable-glass border border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div className="space-y-1">
+            <div key={c.id} className="uunit-card p-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+              <div>
                 <div className="flex items-center space-x-2">
-                  <span className="text-xs font-bold text-white">{c.title}</span>
-                  <span className={`text-[10px] px-2 py-0.5 rounded font-semibold ${
-                    c.moderation_status === 'APPROVED' ? 'bg-emerald-500/15 text-emerald-400' :
-                    c.moderation_status === 'PENDING_REVIEW' ? 'bg-amber-500/15 text-amber-400' : 'bg-rose-500/15 text-rose-400'
+                  <span className="font-semibold text-white">{c.title}</span>
+                  <span className={`text-[10px] font-mono px-1.5 py-0.2 rounded ${
+                    c.moderation_status === 'APPROVED' ? 'bg-[#064E3B]/40 text-[#34D399]' :
+                    c.moderation_status === 'PENDING_REVIEW' ? 'bg-[#78350F]/40 text-[#FBBF24]' : 'bg-[#881337]/40 text-[#FB7185]'
                   }`}>
                     {c.moderation_status}
                   </span>
                 </div>
-                <p className="text-xs text-slate-400">{c.company_name} • {c.direction} • {c.category}</p>
+                <div className="text-[11px] font-mono text-slate-400 mt-0.5">
+                  {c.company_name} • {c.direction} • {c.category}
+                </div>
               </div>
 
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-1.5 font-mono">
                 <button
                   onClick={() => handleModerateCase(c.id, 'APPROVED')}
-                  className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition flex items-center space-x-1"
+                  className="px-2.5 py-1 rounded bg-[#064E3B] hover:bg-[#047857] text-[#34D399] transition"
                 >
-                  <Check className="w-3.5 h-3.5" />
-                  <span>Одобрить</span>
+                  Одобрить
                 </button>
                 <button
                   onClick={() => handleModerateCase(c.id, 'NEEDS_REVISION')}
-                  className="px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold transition"
+                  className="px-2.5 py-1 rounded bg-[#78350F] hover:bg-[#92400E] text-[#FBBF24] transition"
                 >
-                  На доработку
+                  Доработка
                 </button>
                 <button
                   onClick={() => handleModerateCase(c.id, 'REJECTED')}
-                  className="px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold transition flex items-center space-x-1"
+                  className="px-2.5 py-1 rounded bg-[#881337] hover:bg-[#9F1239] text-[#FB7185] transition"
                 >
-                  <X className="w-3.5 h-3.5" />
-                  <span>Отклонить</span>
+                  Отклонить
                 </button>
               </div>
             </div>
           ))}
         </div>
       ) : activeTab === 'companies' ? (
-        <div className="space-y-4">
+        <div className="space-y-2.5">
           {companies.map((comp) => (
-            <div key={comp.id} className="p-5 rounded-2xl fable-glass border border-white/10 flex items-center justify-between gap-4">
+            <div key={comp.id} className="uunit-card p-3.5 flex items-center justify-between text-xs">
               <div>
-                <h4 className="font-bold text-white text-sm">{comp.full_name}</h4>
-                <p className="text-xs text-slate-400">{comp.industry} • {comp.website}</p>
+                <h4 className="font-semibold text-white">{comp.full_name}</h4>
+                <p className="text-[11px] text-slate-400 font-mono">{comp.industry} • {comp.website}</p>
               </div>
 
-              <div className="flex items-center space-x-2">
+              <div>
                 {comp.is_moderated ? (
-                  <span className="text-xs font-semibold text-emerald-400 flex items-center space-x-1">
-                    <Check className="w-4 h-4" />
-                    <span>Компания верифицирована</span>
-                  </span>
+                  <span className="text-[#34D399] font-mono font-medium text-xs">✓ Аккредитована</span>
                 ) : (
                   <button
                     onClick={() => handleModerateCompany(comp.id, true)}
-                    className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition"
+                    className="px-3 py-1 rounded bg-[#2563EB] text-white font-mono"
                   >
-                    Подтвердить аккредитацию
+                    Аккредитовать
                   </button>
                 )}
               </div>
@@ -186,34 +171,31 @@ export const ModerationAudit: React.FC = () => {
           ))}
         </div>
       ) : (
-        <div className="p-6 rounded-3xl fable-glass border border-white/10 space-y-4">
-          <h3 className="font-bold text-white text-base">Журнал фиксации критических действий (п. 5.26 ТЗ)</h3>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs text-slate-300">
-              <thead className="text-[11px] uppercase tracking-wider text-slate-500 border-b border-white/10">
-                <tr>
-                  <th className="pb-3">Дата/Время</th>
-                  <th className="pb-3">Пользователь</th>
-                  <th className="pb-3">Тип операции</th>
-                  <th className="pb-3">Объект</th>
-                  <th className="pb-3">Детали</th>
+        <div className="uunit-panel rounded-xl overflow-hidden font-mono text-xs">
+          <table className="w-full text-left text-slate-300">
+            <thead className="bg-[#070A12] text-[10px] uppercase text-slate-400 border-b border-[#1E293B]">
+              <tr>
+                <th className="py-2 px-3">Дата/Время</th>
+                <th className="py-2 px-3">Пользователь</th>
+                <th className="py-2 px-3">Операция</th>
+                <th className="py-2 px-3">Объект</th>
+                <th className="py-2 px-3">Параметры</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[#172033] text-[11px]">
+              {auditLogs.map((log) => (
+                <tr key={log.id} className="hover:bg-[#11182B]">
+                  <td className="py-2 px-3 text-slate-400">{new Date(log.created_at).toLocaleTimeString('ru-RU')}</td>
+                  <td className="py-2 px-3 text-white">{log.user_email || 'система'}</td>
+                  <td className="py-2 px-3 text-[#60A5FA] font-bold">{log.action_type}</td>
+                  <td className="py-2 px-3">{log.entity_type} #{log.entity_id || '-'}</td>
+                  <td className="py-2 px-3 text-slate-400 truncate max-w-xs">
+                    {JSON.stringify(log.new_values || log.old_values || {})}
+                  </td>
                 </tr>
-              </thead>
-              <tbody className="divide-y divide-white/5 font-mono">
-                {auditLogs.map((log) => (
-                  <tr key={log.id} className="hover:bg-white/[0.02]">
-                    <td className="py-2.5 text-slate-400">{new Date(log.created_at).toLocaleString('ru-RU')}</td>
-                    <td className="py-2.5 text-white font-sans">{log.user_email || 'система'}</td>
-                    <td className="py-2.5 text-indigo-400 font-bold">{log.action_type}</td>
-                    <td className="py-2.5 text-slate-300">{log.entity_type} #{log.entity_id || '-'}</td>
-                    <td className="py-2.5 text-slate-500 text-[11px] truncate max-w-xs">
-                      {JSON.stringify(log.new_values || log.old_values || {})}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
 

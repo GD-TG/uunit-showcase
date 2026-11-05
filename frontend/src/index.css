@@ -1,55 +1,69 @@
 @import "tailwindcss";
 
 @layer base {
+  :root {
+    --uunit-navy: #0A0F1D;
+    --uunit-surface: #10172A;
+    --uunit-surface-hover: #162038;
+    --uunit-border: #1E293B;
+    --uunit-border-focus: #3B82F6;
+    --uunit-blue: #2563EB;
+    --uunit-blue-light: #60A5FA;
+  }
+
   body {
-    background-color: #080C14;
+    background-color: #070A12;
     color: #F1F5F9;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
   }
 }
 
-/* Fable style custom utilities */
-.fable-glass {
-  background: rgba(15, 23, 42, 0.65);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+/* Linear & University Design Tokens */
+.uunit-card {
+  background-color: #0D1322;
+  border: 1px solid #1A2338;
+  border-radius: 12px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.fable-glass-hover:hover {
-  background: rgba(30, 41, 59, 0.7);
-  border-color: rgba(99, 102, 241, 0.35);
-  box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.15);
+.uunit-card:hover {
+  background-color: #11182B;
+  border-color: #263554;
 }
 
-.fable-glow {
-  box-shadow: 0 0 35px -5px rgba(99, 102, 241, 0.25);
+.uunit-card-active {
+  border-color: #3B82F6;
+  background-color: #0F172E;
 }
 
-.gradient-text {
-  background: linear-gradient(135deg, #60A5FA 0%, #A78BFA 50%, #F472B6 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.uunit-panel {
+  background-color: #090E1A;
+  border: 1px solid #172033;
 }
 
-.gold-gradient-text {
-  background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 50%, #D97706 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.uunit-badge {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 6px;
+  border-width: 1px;
 }
 
-/* Custom modern scrollbar */
+/* Precise scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #080C14;
+  background: #070A12;
 }
 ::-webkit-scrollbar-thumb {
   background: #1E293B;
-  border-radius: 4px;
+  border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #334155;

@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { 
   Briefcase, 
   Layers, 
-  Sparkles, 
+  Code2, 
   Users, 
-  BarChart3, 
-  ShieldCheck, 
+  BarChart2, 
+  Shield, 
   Bell, 
-  CheckCircle2, 
   Award,
   ChevronDown,
   UserCheck
@@ -48,47 +47,50 @@ export const Navbar: React.FC<NavbarProps> = ({
   const navItems = [
     { id: 'cases', label: 'Витрина кейсов', icon: Briefcase },
     { id: 'workspace', label: 'Рабочее место', icon: Layers },
-    { id: 'showcase', label: 'Студенческая витрина', icon: Sparkles },
-    { id: 'talents', label: 'Поиск студентов', icon: Users },
-    { id: 'portfolio', label: 'Моё портфолио', icon: Award },
-    { id: 'analytics', label: 'Аналитика УУНиТ', icon: BarChart3 },
+    { id: 'showcase', label: 'Студенческие проекты', icon: Code2 },
+    { id: 'talents', label: 'Кадровый поиск', icon: Users },
+    { id: 'portfolio', label: 'Портфолио', icon: Award },
+    { id: 'analytics', label: 'Аналитика', icon: BarChart2 },
     ...(currentUser?.role === 'STAFF' || currentUser?.role === 'ADMIN' 
-      ? [{ id: 'moderation', label: 'Модерация и аудит', icon: ShieldCheck }] 
+      ? [{ id: 'moderation', label: 'Модерация', icon: Shield }] 
       : []
     ),
   ];
 
-  const roleLabels: Record<Role, { title: string; color: string }> = {
-    STUDENT: { title: 'Студент УУНиТ', color: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' },
-    COMPANY: { title: 'Яндекс (Компания)', color: 'bg-amber-500/10 text-amber-400 border-amber-500/20' },
-    STAFF: { title: 'Куратор УУНиТ', color: 'bg-blue-500/10 text-blue-400 border-blue-500/20' },
-    ADMIN: { title: 'Администратор', color: 'bg-purple-500/10 text-purple-400 border-purple-500/20' },
-    MENTOR: { title: 'Наставник', color: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20' },
+  const roleLabels: Record<Role, { title: string; subtitle: string }> = {
+    STUDENT: { title: 'Артур Каримов', subtitle: 'Студент УУНиТ (ИИМР)' },
+    COMPANY: { title: 'Яндекс Технологии', subtitle: 'Индустриальный партнёр' },
+    STAFF: { title: 'Елена Кураторова', subtitle: 'Сотрудник УУНиТ' },
+    ADMIN: { title: 'Администратор', subtitle: 'Системный доступ' },
+    MENTOR: { title: 'Руслан Хакимов', subtitle: 'Куратор проекта' },
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full fable-glass border-b border-white/[0.08]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+    <header className="sticky top-0 z-50 w-full bg-[#090E1A]/95 backdrop-blur-md border-b border-[#172033]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="flex items-center justify-between h-14">
           
-          {/* Logo & University badge */}
-          <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setActiveTab('cases')}>
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center fable-glow">
-              <span className="font-extrabold text-white text-base tracking-wider">ИТ</span>
+          {/* UUNiT Academic Brand */}
+          <div 
+            className="flex items-center space-x-3 cursor-pointer group" 
+            onClick={() => setActiveTab('cases')}
+          >
+            <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#1E3A8A] border border-[#2563EB]/40 text-white font-bold text-xs tracking-wider">
+              УУ
             </div>
-            <div>
+            <div className="leading-tight">
               <div className="flex items-center space-x-2">
-                <span className="font-bold text-white tracking-tight text-lg">Витрина Проектов</span>
-                <span className="text-[10px] uppercase font-semibold px-2 py-0.5 rounded-full bg-blue-500/15 text-blue-400 border border-blue-500/25">
+                <span className="font-semibold text-slate-100 text-sm tracking-tight">Витрина проектов</span>
+                <span className="text-[10px] uppercase font-mono px-1.5 py-0.2 rounded bg-[#172554] text-[#60A5FA] border border-[#1E40AF]/50 font-medium">
                   УУНиТ
                 </span>
               </div>
-              <p className="text-[11px] text-slate-400 font-medium">Единая среда индустриального партнерства</p>
+              <p className="text-[10px] text-slate-400 font-normal">Уфимский университет науки и технологий</p>
             </div>
           </div>
 
-          {/* Navigation Links */}
-          <nav className="hidden lg:flex items-center space-x-1">
+          {/* Segmented Control Navigation */}
+          <nav className="hidden lg:flex items-center space-x-1 bg-[#060A14] p-1 rounded-lg border border-[#172033]">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = activeTab === item.id;
@@ -96,106 +98,127 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <button
                   key={item.id}
                   onClick={() => setActiveTab(item.id)}
-                  className={`flex items-center space-x-2 px-3.5 py-2 rounded-lg text-xs font-semibold transition-all duration-200 ${
+                  className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-150 ${
                     isActive
-                      ? 'bg-indigo-600/20 text-indigo-300 border border-indigo-500/40 shadow-sm shadow-indigo-500/20'
-                      : 'text-slate-400 hover:text-slate-200 hover:bg-white/[0.04]'
+                      ? 'bg-[#1E293B] text-white shadow-sm border border-[#334155]'
+                      : 'text-slate-400 hover:text-slate-200 hover:bg-white/[0.03]'
                   }`}
                 >
-                  <Icon className={`w-4 h-4 ${isActive ? 'text-indigo-400' : 'text-slate-500'}`} />
+                  <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-[#60A5FA]' : 'text-slate-400'}`} />
                   <span>{item.label}</span>
                 </button>
               );
             })}
           </nav>
 
-          {/* Right Action: Role Switcher & Notifications */}
-          <div className="flex items-center space-x-3">
+          {/* Actions: Role Selector & Notifications */}
+          <div className="flex items-center space-x-2.5">
             
-            {/* Quick Demo Role Selector */}
+            {/* Role Selector */}
             <div className="relative">
               <button
                 onClick={() => setShowRoleMenu(!showRoleMenu)}
-                className={`flex items-center space-x-2 px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${
-                  currentUser ? roleLabels[currentUser.role]?.color : 'bg-slate-800 text-slate-300'
-                }`}
-                title="Переключить роль для тестирования сценариев ТЗ"
+                className="flex items-center space-x-2 px-2.5 py-1.5 rounded-lg bg-[#0F172A] border border-[#1E293B] hover:border-[#334155] transition text-left"
               >
-                <UserCheck className="w-3.5 h-3.5" />
-                <span>{currentUser ? roleLabels[currentUser.role]?.title : 'Выбрать роль'}</span>
-                <ChevronDown className="w-3 h-3 ml-0.5 opacity-70" />
+                <div className="w-2 h-2 rounded-full bg-[#10B981]"></div>
+                <div className="hidden sm:block">
+                  <div className="text-[11px] font-medium text-slate-200 leading-none">
+                    {currentUser ? roleLabels[currentUser.role]?.title : 'Профиль'}
+                  </div>
+                  <div className="text-[9px] text-slate-400 font-mono leading-none mt-0.5">
+                    {currentUser ? roleLabels[currentUser.role]?.subtitle : ''}
+                  </div>
+                </div>
+                <ChevronDown className="w-3 h-3 text-slate-400 ml-1" />
               </button>
 
               {showRoleMenu && (
-                <div className="absolute right-0 mt-2 w-56 rounded-xl fable-glass border border-white/10 shadow-2xl py-2 z-50">
-                  <div className="px-3 py-1.5 text-[11px] uppercase tracking-wider text-slate-400 font-bold border-b border-white/5">
-                    Тестовый доступ (Роли ТЗ):
+                <div className="absolute right-0 mt-2 w-64 rounded-xl bg-[#0F172A] border border-[#1E293B] shadow-2xl py-1.5 z-50 divide-y divide-[#1E293B]/60">
+                  <div className="px-3 py-1 text-[10px] uppercase font-mono tracking-wider text-slate-400 font-semibold">
+                    Переключение роли (ТЗ):
                   </div>
-                  <button
-                    onClick={() => { onSwitchRole('STUDENT'); setShowRoleMenu(false); }}
-                    className="w-full text-left px-3 py-2 text-xs text-slate-200 hover:bg-indigo-600/20 flex items-center justify-between"
-                  >
-                    <span>Студент (Артур Каримов)</span>
-                    <span className="text-[10px] text-emerald-400">ПИ-301</span>
-                  </button>
-                  <button
-                    onClick={() => { onSwitchRole('COMPANY'); setShowRoleMenu(false); }}
-                    className="w-full text-left px-3 py-2 text-xs text-slate-200 hover:bg-indigo-600/20 flex items-center justify-between"
-                  >
-                    <span>Представитель компании</span>
-                    <span className="text-[10px] text-amber-400">Яндекс</span>
-                  </button>
-                  <button
-                    onClick={() => { onSwitchRole('STAFF'); setShowRoleMenu(false); }}
-                    className="w-full text-left px-3 py-2 text-xs text-slate-200 hover:bg-indigo-600/20 flex items-center justify-between"
-                  >
-                    <span>Сотрудник УУНиТ</span>
-                    <span className="text-[10px] text-blue-400">Куратор</span>
-                  </button>
-                  <button
-                    onClick={() => { onSwitchRole('ADMIN'); setShowRoleMenu(false); }}
-                    className="w-full text-left px-3 py-2 text-xs text-slate-200 hover:bg-indigo-600/20 flex items-center justify-between"
-                  >
-                    <span>Администратор</span>
-                    <span className="text-[10px] text-purple-400">Полный доступ</span>
-                  </button>
+                  <div className="py-1">
+                    <button
+                      onClick={() => { onSwitchRole('STUDENT'); setShowRoleMenu(false); }}
+                      className="w-full text-left px-3 py-2 text-xs text-slate-200 hover:bg-[#1E293B] flex items-center justify-between"
+                    >
+                      <div>
+                        <div className="font-medium text-white">Артур Каримов</div>
+                        <div className="text-[10px] text-slate-400">Студент УУНиТ, ИИМР, 3 курс</div>
+                      </div>
+                      <span className="text-[10px] font-mono text-[#34D399] bg-[#064E3B]/40 px-1.5 py-0.5 rounded border border-[#059669]/40">ПИ-301</span>
+                    </button>
+
+                    <button
+                      onClick={() => { onSwitchRole('COMPANY'); setShowRoleMenu(false); }}
+                      className="w-full text-left px-3 py-2 text-xs text-slate-200 hover:bg-[#1E293B] flex items-center justify-between"
+                    >
+                      <div>
+                        <div className="font-medium text-white">Яндекс Технологии</div>
+                        <div className="text-[10px] text-slate-400">Индустриальный партнёр</div>
+                      </div>
+                      <span className="text-[10px] font-mono text-[#FBBF24] bg-[#78350F]/40 px-1.5 py-0.5 rounded border border-[#D97706]/40">Компания</span>
+                    </button>
+
+                    <button
+                      onClick={() => { onSwitchRole('STAFF'); setShowRoleMenu(false); }}
+                      className="w-full text-left px-3 py-2 text-xs text-slate-200 hover:bg-[#1E293B] flex items-center justify-between"
+                    >
+                      <div>
+                        <div className="font-medium text-white">Елена Кураторова</div>
+                        <div className="text-[10px] text-slate-400">Сотрудник деканата / Модератор</div>
+                      </div>
+                      <span className="text-[10px] font-mono text-[#60A5FA] bg-[#1E3A8A]/40 px-1.5 py-0.5 rounded border border-[#2563EB]/40">УУНиТ</span>
+                    </button>
+
+                    <button
+                      onClick={() => { onSwitchRole('ADMIN'); setShowRoleMenu(false); }}
+                      className="w-full text-left px-3 py-2 text-xs text-slate-200 hover:bg-[#1E293B] flex items-center justify-between"
+                    >
+                      <div>
+                        <div className="font-medium text-white">Администратор</div>
+                        <div className="text-[10px] text-slate-400">Полный доступ и аудит</div>
+                      </div>
+                      <span className="text-[10px] font-mono text-[#C084FC] bg-[#581C87]/40 px-1.5 py-0.5 rounded border border-[#7C3AED]/40">Root</span>
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
 
-            {/* Notifications Bell */}
+            {/* Notification Bell */}
             <div className="relative">
               <button 
                 onClick={() => setShowNotifs(!showNotifs)}
-                className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.05] transition relative"
+                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-[#1E293B] transition relative border border-transparent hover:border-[#334155]"
               >
                 <Bell className="w-4 h-4" />
                 {notifications.some(n => !n.is_read) && (
-                  <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>
+                  <span className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full bg-[#3B82F6]"></span>
                 )}
               </button>
 
               {showNotifs && (
-                <div className="absolute right-0 mt-2 w-80 rounded-xl fable-glass border border-white/10 shadow-2xl p-3 z-50">
-                  <div className="flex items-center justify-between pb-2 border-b border-white/10 text-xs font-semibold text-slate-300">
+                <div className="absolute right-0 mt-2 w-80 rounded-xl bg-[#0F172A] border border-[#1E293B] shadow-2xl p-3 z-50">
+                  <div className="flex items-center justify-between pb-2 border-b border-[#1E293B] text-xs font-semibold text-slate-200">
                     <span>Уведомления ({notifications.length})</span>
                     <button 
                       onClick={async () => {
                         await api.post('/notifications/read-all');
                         fetchNotifications();
                       }}
-                      className="text-[11px] text-indigo-400 hover:underline"
+                      className="text-[10px] text-[#60A5FA] hover:underline"
                     >
-                      Прочитано
+                      Пометить прочитанными
                     </button>
                   </div>
-                  <div className="max-h-64 overflow-y-auto mt-2 space-y-2">
+                  <div className="max-h-60 overflow-y-auto mt-2 space-y-1.5">
                     {notifications.length === 0 ? (
-                      <p className="text-xs text-slate-500 text-center py-4">Нет новых уведомлений</p>
+                      <p className="text-xs text-slate-500 text-center py-4">Новых уведомлений нет</p>
                     ) : (
                       notifications.map((n) => (
-                        <div key={n.id} className="p-2 rounded-lg bg-white/[0.02] border border-white/[0.05] text-xs">
-                          <p className="font-semibold text-slate-200">{n.title}</p>
+                        <div key={n.id} className="p-2 rounded-lg bg-[#070A12] border border-[#1E293B] text-xs">
+                          <p className="font-medium text-slate-200">{n.title}</p>
                           <p className="text-slate-400 text-[11px] mt-0.5">{n.message}</p>
                         </div>
                       ))
@@ -205,14 +228,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               )}
             </div>
 
-            {/* User Avatar */}
-            {currentUser && (
-              <img
-                src={currentUser.avatar_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100'}
-                alt="Avatar"
-                className="w-8 h-8 rounded-full border border-indigo-500/40 object-cover"
-              />
-            )}
           </div>
 
         </div>

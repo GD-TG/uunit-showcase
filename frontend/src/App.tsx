@@ -16,7 +16,6 @@ export function App() {
   const [selectedCaseForWorkspace, setSelectedCaseForWorkspace] = useState<CaseProject | null>(null);
   const [targetPortfolioUserId, setTargetPortfolioUserId] = useState<number | undefined>(undefined);
 
-  // Initialize demo student by default
   useEffect(() => {
     switchRole('STUDENT');
     fetchInitialCase();
@@ -51,7 +50,7 @@ export function App() {
       localStorage.setItem('uunit_token', res.data.access_token);
       setCurrentUser(res.data.user);
     } catch (e) {
-      console.error('Role switch failed', e);
+      console.error('Role switch error', e);
     }
   };
 
@@ -61,9 +60,9 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#080C14] text-slate-100 flex flex-col selection:bg-indigo-500/30 selection:text-indigo-200">
+    <div className="min-h-screen bg-[#070A12] text-slate-100 flex flex-col font-sans selection:bg-[#2563EB]/40 selection:text-white">
       
-      {/* Premium Top Navigation */}
+      {/* Slim Header */}
       <Navbar
         activeTab={activeTab}
         setActiveTab={(tab) => {
@@ -74,8 +73,8 @@ export function App() {
         onSwitchRole={switchRole}
       />
 
-      {/* Main Content Viewport */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Main Viewport */}
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6">
         
         {activeTab === 'cases' && (
           <CasesShowcase
@@ -124,16 +123,16 @@ export function App() {
 
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-white/[0.06] py-8 fable-glass mt-auto">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+      {/* University Academic Footer */}
+      <footer className="border-t border-[#172033] py-4 bg-[#090E1A] mt-auto text-xs font-mono">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-slate-400">
           <div className="flex items-center space-x-2">
-            <span className="font-bold text-slate-300">АИС «Витрина ИТ-проектов»</span>
+            <span className="font-semibold text-slate-300">АИС «Витрина ИТ-проектов»</span>
             <span>•</span>
             <span>ФГБОУ ВО «Уфимский университет науки и технологий» (УУНиТ)</span>
           </div>
-          <div>
-            Стек: Python 3.12 (FastAPI) + PostgreSQL 16 + React 19 + Tailwind CSS
+          <div className="text-[11px] text-slate-500">
+            Python 3.12 (FastAPI) • PostgreSQL 16 • React 19 • Linear UI System
           </div>
         </div>
       </footer>
