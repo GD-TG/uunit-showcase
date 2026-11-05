@@ -2,69 +2,33 @@
 
 @layer base {
   :root {
-    --uunit-navy: #0A0F1D;
-    --uunit-surface: #10172A;
-    --uunit-surface-hover: #162038;
-    --uunit-border: #1E293B;
-    --uunit-border-focus: #3B82F6;
-    --uunit-blue: #2563EB;
-    --uunit-blue-light: #60A5FA;
+    --uunit-primary: #1e3a8a; /* Deep UUNiT Academic Blue */
+    --uunit-primary-hover: #172554;
+    --uunit-accent: #2563eb;
   }
 
   body {
-    background-color: #070A12;
-    color: #F1F5F9;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #f8fafc;
+    color: #0f172a;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
   }
 }
 
-/* Linear & University Design Tokens */
-.uunit-card {
-  background-color: #0D1322;
-  border: 1px solid #1A2338;
-  border-radius: 12px;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.uunit-card:hover {
-  background-color: #11182B;
-  border-color: #263554;
-}
-
-.uunit-card-active {
-  border-color: #3B82F6;
-  background-color: #0F172E;
-}
-
-.uunit-panel {
-  background-color: #090E1A;
-  border: 1px solid #172033;
-}
-
-.uunit-badge {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 11px;
-  font-weight: 500;
-  padding: 2px 8px;
-  border-radius: 6px;
-  border-width: 1px;
-}
-
-/* Precise scrollbar */
+/* Crisp academic scrollbar */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #070A12;
+  background: #f1f5f9;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1E293B;
+  background: #cbd5e1;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: #94a3b8;
 }

@@ -5,12 +5,10 @@ import {
   Lock, 
   LayoutGrid, 
   List as ListIcon, 
-  SlidersHorizontal,
-  Calendar,
-  Users,
-  CheckCircle2,
   Building,
-  GraduationCap
+  CheckCircle2,
+  Calendar,
+  Users
 } from 'lucide-react';
 import { CaseProject, User } from '../types';
 import api from '../api';
@@ -78,46 +76,46 @@ export const CasesShowcase: React.FC<CasesShowcaseProps> = ({
   ];
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       
       {/* University Academic Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-[#1E293B] gap-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between pb-5 border-b border-slate-200 gap-4">
         <div>
-          <div className="flex items-center space-x-2 text-xs font-mono text-slate-400">
+          <div className="flex items-center space-x-2 text-xs text-slate-500 font-medium">
             <span>УУНиТ • Практико-ориентированная проектная деятельность</span>
             <span>/</span>
-            <span className="text-[#60A5FA]">Семестр 2026/1</span>
+            <span className="text-blue-700">Семестр 2026/1</span>
           </div>
-          <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight mt-1">
+          <h1 className="text-2xl font-bold text-slate-900 tracking-tight mt-1">
             Реестр проектов и кейсов индустриальных партнёров
           </h1>
         </div>
 
-        {/* Quick Stats in Linear style */}
-        <div className="flex items-center space-x-4 text-xs font-mono">
-          <div className="px-3 py-1.5 rounded-lg bg-[#0D1322] border border-[#1A2338]">
-            <span className="text-slate-400">Призовой фонд: </span>
-            <span className="text-[#34D399] font-bold">450 000 ₽</span>
+        {/* Quick Stats */}
+        <div className="flex items-center space-x-3 text-xs">
+          <div className="px-3.5 py-2 rounded-lg bg-white border border-slate-200 shadow-xs">
+            <span className="text-slate-500">Призовой фонд: </span>
+            <span className="text-emerald-700 font-bold ml-1">450 000 ₽</span>
           </div>
-          <div className="px-3 py-1.5 rounded-lg bg-[#0D1322] border border-[#1A2338]">
-            <span className="text-slate-400">Компаний: </span>
-            <span className="text-white font-bold">4</span>
+          <div className="px-3.5 py-2 rounded-lg bg-white border border-slate-200 shadow-xs">
+            <span className="text-slate-500">Партнеры: </span>
+            <span className="text-slate-900 font-bold ml-1">4 компании</span>
           </div>
         </div>
       </div>
 
-      {/* Filter and Toolbar (Linear Pattern) */}
-      <div className="flex flex-col lg:flex-row gap-3 items-stretch lg:items-center justify-between bg-[#0B101E] p-2.5 rounded-xl border border-[#1A2338]">
+      {/* Filter and Toolbar */}
+      <div className="flex flex-col lg:flex-row gap-3 items-stretch lg:items-center justify-between bg-white p-3 rounded-lg border border-slate-200 shadow-xs">
         
         {/* Search */}
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <input
             type="text"
             placeholder="Поиск по названию, компании или технологиям..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-3 py-1.5 rounded-lg bg-[#070A12] border border-[#1E293B] text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-[#3B82F6]"
+            className="w-full pl-9 pr-3 py-1.5 rounded-md bg-slate-50 border border-slate-300 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white"
           />
         </div>
 
@@ -126,7 +124,7 @@ export const CasesShowcase: React.FC<CasesShowcaseProps> = ({
           <select
             value={selectedDirection}
             onChange={(e) => setSelectedDirection(e.target.value)}
-            className="px-2.5 py-1.5 rounded-lg bg-[#070A12] border border-[#1E293B] text-xs text-slate-300 focus:outline-none focus:border-[#3B82F6]"
+            className="px-3 py-1.5 rounded-md bg-slate-50 border border-slate-300 text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white"
           >
             {directions.map((d) => (
               <option key={d} value={d}>
@@ -139,7 +137,7 @@ export const CasesShowcase: React.FC<CasesShowcaseProps> = ({
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="px-2.5 py-1.5 rounded-lg bg-[#070A12] border border-[#1E293B] text-xs text-slate-300 focus:outline-none focus:border-[#3B82F6]"
+            className="px-3 py-1.5 rounded-md bg-slate-50 border border-slate-300 text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:bg-white"
           >
             {categories.map((c) => (
               <option key={c.id} value={c.id}>
@@ -149,15 +147,15 @@ export const CasesShowcase: React.FC<CasesShowcaseProps> = ({
           </select>
 
           {/* Course Selector */}
-          <div className="flex items-center space-x-1 border-l border-[#1E293B] pl-2">
+          <div className="flex items-center space-x-1 border-l border-slate-200 pl-2">
             {[1, 2, 3, 4].map((c) => (
               <button
                 key={c}
                 onClick={() => setSelectedCourse(selectedCourse === c ? null : c)}
-                className={`w-7 h-7 rounded-md text-xs font-mono font-medium transition ${
+                className={`w-7 h-7 rounded-md text-xs font-semibold transition ${
                   selectedCourse === c
-                    ? 'bg-[#2563EB] text-white'
-                    : 'bg-[#070A12] text-slate-400 hover:text-white border border-[#1E293B]'
+                    ? 'bg-blue-800 text-white shadow-xs'
+                    : 'bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-300'
                 }`}
                 title={`${c} курс`}
               >
@@ -167,18 +165,28 @@ export const CasesShowcase: React.FC<CasesShowcaseProps> = ({
           </div>
 
           {/* View toggle */}
-          <div className="flex items-center space-x-1 border-l border-[#1E293B] pl-2">
+          <div className="flex items-center space-x-1 border-l border-slate-200 pl-2">
             <button
               onClick={() => setViewMode('grid')}
-              className={`p-1.5 rounded-md ${viewMode === 'grid' ? 'bg-[#1E293B] text-white' : 'text-slate-400 hover:text-white'}`}
+              className={`p-1.5 rounded-md transition ${
+                viewMode === 'grid' 
+                  ? 'bg-slate-200 text-slate-900' 
+                  : 'text-slate-400 hover:text-slate-700'
+              }`}
+              title="Сетка"
             >
-              <LayoutGrid className="w-3.5 h-3.5" />
+              <LayoutGrid className="w-4 h-4" />
             </button>
             <button
               onClick={() => setViewMode('table')}
-              className={`p-1.5 rounded-md ${viewMode === 'table' ? 'bg-[#1E293B] text-white' : 'text-slate-400 hover:text-white'}`}
+              className={`p-1.5 rounded-md transition ${
+                viewMode === 'table' 
+                  ? 'bg-slate-200 text-slate-900' 
+                  : 'text-slate-400 hover:text-slate-700'
+              }`}
+              title="Таблица"
             >
-              <ListIcon className="w-3.5 h-3.5" />
+              <ListIcon className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -186,58 +194,65 @@ export const CasesShowcase: React.FC<CasesShowcaseProps> = ({
 
       {/* Cases Viewport */}
       {loading ? (
-        <div className="text-center py-16 text-slate-500 font-mono text-xs">Загрузка данных реестра...</div>
+        <div className="text-center py-20 text-slate-500 text-xs">Загрузка данных реестра...</div>
       ) : cases.length === 0 ? (
-        <div className="text-center py-16 uunit-card text-slate-400 text-xs">
+        <div className="text-center py-20 bg-white border border-slate-200 rounded-lg text-slate-500 text-xs">
           По заданным критериям кейсы не найдены.
         </div>
       ) : viewMode === 'grid' ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {cases.map((c) => (
             <div
               key={c.id}
               onClick={() => setSelectedCase(c)}
-              className="uunit-card p-5 cursor-pointer flex flex-col justify-between group"
+              className="bg-white border border-slate-200 rounded-lg p-5 cursor-pointer flex flex-col justify-between hover:border-blue-400 hover:shadow-md transition-all group"
             >
               <div className="space-y-3">
                 {/* Header: Partner + NDA */}
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex items-center space-x-2.5">
                     {c.company_logo ? (
-                      <img src={c.company_logo} alt={c.company_name} className="w-7 h-7 rounded-md object-contain bg-white/5 p-1 border border-white/10" />
+                      <img 
+                        src={c.company_logo} 
+                        alt={c.company_name} 
+                        className="w-8 h-8 rounded-md object-contain bg-slate-50 p-1 border border-slate-200" 
+                      />
                     ) : (
-                      <div className="w-7 h-7 rounded-md bg-[#1E293B] text-slate-300 font-bold text-xs flex items-center justify-center">
+                      <div className="w-8 h-8 rounded-md bg-blue-50 text-blue-800 font-bold text-xs flex items-center justify-center border border-blue-200">
                         {c.company_name.slice(0, 1)}
                       </div>
                     )}
                     <div>
-                      <div className="text-xs font-semibold text-slate-200">{c.company_name}</div>
-                      <div className="text-[10px] text-slate-400 font-mono">{c.direction}</div>
+                      <div className="text-xs font-semibold text-slate-900">{c.company_name}</div>
+                      <div className="text-[11px] text-slate-500">{c.direction}</div>
                     </div>
                   </div>
 
                   {c.is_confidential && (
-                    <span className="flex items-center space-x-1 px-1.5 py-0.5 rounded text-[10px] font-mono font-medium bg-[#881337]/30 text-[#FB7185] border border-[#BE123C]/30">
-                      <Lock className="w-2.5 h-2.5" />
+                    <span className="flex items-center space-x-1 px-2 py-0.5 rounded text-[11px] font-medium bg-rose-50 text-rose-700 border border-rose-200">
+                      <Lock className="w-3 h-3" />
                       <span>NDA</span>
                     </span>
                   )}
                 </div>
 
                 {/* Case Title */}
-                <h3 className="font-semibold text-slate-100 text-sm group-hover:text-[#60A5FA] transition-colors line-clamp-2 leading-snug">
+                <h3 className="font-semibold text-slate-900 text-sm group-hover:text-blue-800 transition-colors line-clamp-2 leading-snug">
                   {c.title}
                 </h3>
 
                 {/* Brief description */}
-                <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">
+                <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
                   {c.short_description}
                 </p>
 
                 {/* Technologies */}
-                <div className="flex flex-wrap gap-1 pt-1">
+                <div className="flex flex-wrap gap-1.5 pt-1">
                   {(c.recommended_technologies || []).slice(0, 3).map((t, idx) => (
-                    <span key={idx} className="uunit-badge bg-[#060A14] text-slate-300 border-[#1E293B]">
+                    <span 
+                      key={idx} 
+                      className="text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200 font-medium"
+                    >
                       {t}
                     </span>
                   ))}
@@ -245,20 +260,20 @@ export const CasesShowcase: React.FC<CasesShowcaseProps> = ({
               </div>
 
               {/* Bottom Meta Bar */}
-              <div className="mt-4 pt-3 border-t border-[#1A2338] flex items-center justify-between text-xs font-mono">
+              <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
                 <div>
                   {c.prize_fund ? (
-                    <span className="text-[#34D399] font-bold">{c.prize_fund.toLocaleString('ru-RU')} ₽</span>
+                    <span className="text-emerald-700 font-semibold">{c.prize_fund.toLocaleString('ru-RU')} ₽ фонд</span>
                   ) : c.payment_amount ? (
-                    <span className="text-[#38BDF8] font-bold">{c.payment_amount.toLocaleString('ru-RU')} ₽</span>
+                    <span className="text-blue-700 font-semibold">{c.payment_amount.toLocaleString('ru-RU')} ₽ / проект</span>
                   ) : (
-                    <span className="text-slate-400 font-medium">{c.has_internship ? 'Стажировка' : 'Сертификат'}</span>
+                    <span className="text-slate-600 font-medium">{c.has_internship ? 'Стажировка' : 'Сертификат'}</span>
                   )}
                 </div>
 
-                <div className="flex items-center space-x-1 text-slate-400 group-hover:text-white transition-colors text-[11px]">
-                  <span>Открыть</span>
-                  <ChevronRight className="w-3 h-3" />
+                <div className="flex items-center space-x-1 text-slate-400 group-hover:text-blue-700 transition-colors text-xs font-medium">
+                  <span>Подробнее</span>
+                  <ChevronRight className="w-3.5 h-3.5" />
                 </div>
               </div>
 
@@ -266,43 +281,43 @@ export const CasesShowcase: React.FC<CasesShowcaseProps> = ({
           ))}
         </div>
       ) : (
-        /* Table View (Linear style) */
-        <div className="uunit-panel rounded-xl overflow-hidden">
-          <table className="w-full text-left text-xs text-slate-300">
-            <thead className="bg-[#0D1322] text-[10px] uppercase font-mono tracking-wider text-slate-400 border-b border-[#1E293B]">
+        /* Table View */
+        <div className="bg-white border border-slate-200 rounded-lg overflow-hidden shadow-xs">
+          <table className="w-full text-left text-xs text-slate-700">
+            <thead className="bg-slate-50 text-xs font-semibold text-slate-600 border-b border-slate-200">
               <tr>
-                <th className="py-2.5 px-4 font-medium">Проект / Кейс</th>
-                <th className="py-2.5 px-4 font-medium">Компания</th>
-                <th className="py-2.5 px-4 font-medium">Направление</th>
-                <th className="py-2.5 px-4 font-medium">Формат</th>
-                <th className="py-2.5 px-4 font-medium">Вознаграждение</th>
-                <th className="py-2.5 px-4 font-medium text-right">Действие</th>
+                <th className="py-3 px-4">Проект / Кейс</th>
+                <th className="py-3 px-4">Компания</th>
+                <th className="py-3 px-4">Направление</th>
+                <th className="py-3 px-4">Формат</th>
+                <th className="py-3 px-4">Вознаграждение</th>
+                <th className="py-3 px-4 text-right">Действие</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#172033]">
+            <tbody className="divide-y divide-slate-100">
               {cases.map((c) => (
                 <tr 
                   key={c.id} 
                   onClick={() => setSelectedCase(c)}
-                  className="hover:bg-[#11182B] cursor-pointer transition-colors"
+                  className="hover:bg-slate-50 cursor-pointer transition-colors"
                 >
-                  <td className="py-3 px-4 font-medium text-slate-100 max-w-sm truncate">
+                  <td className="py-3 px-4 font-semibold text-slate-900 max-w-sm truncate">
                     {c.title}
                   </td>
-                  <td className="py-3 px-4 text-slate-300">
+                  <td className="py-3 px-4 text-slate-700 font-medium">
                     {c.company_name}
                   </td>
-                  <td className="py-3 px-4 font-mono text-[11px] text-slate-400">
+                  <td className="py-3 px-4 text-slate-600">
                     {c.direction}
                   </td>
-                  <td className="py-3 px-4 text-slate-400">
+                  <td className="py-3 px-4 text-slate-600">
                     {c.participation_format}
                   </td>
-                  <td className="py-3 px-4 font-mono font-medium text-[#34D399]">
+                  <td className="py-3 px-4 font-semibold text-emerald-700">
                     {c.prize_fund ? `${c.prize_fund.toLocaleString('ru-RU')} ₽` : (c.payment_amount ? `${c.payment_amount.toLocaleString('ru-RU')} ₽` : 'Сертификат')}
                   </td>
                   <td className="py-3 px-4 text-right">
-                    <span className="text-[#60A5FA] hover:underline font-mono text-[11px]">ТЗ →</span>
+                    <span className="text-blue-700 font-medium hover:underline">Подробнее →</span>
                   </td>
                 </tr>
               ))}

@@ -47,10 +47,10 @@ export const AnalyticsDashboard: React.FC = () => {
     window.open(`/api/analytics/export?format=${format}&report_type=${type}`, '_blank');
   };
 
-  const COLORS = ['#2563EB', '#3B82F6', '#059669', '#D97706', '#7C3AED'];
+  const COLORS = ['#1D4ED8', '#3B82F6', '#059669', '#D97706', '#6366F1'];
 
   if (loading || !data) {
-    return <div className="text-center py-20 text-slate-500 font-mono text-xs">Формирование аналитического отчёта...</div>;
+    return <div className="text-center py-20 text-slate-500 text-xs">Формирование аналитического отчёта...</div>;
   }
 
   const categoryChartData = [
@@ -61,38 +61,38 @@ export const AnalyticsDashboard: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       
       {/* Header and Export Toolbar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[#1E293B] gap-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-200 gap-3">
         <div>
-          <div className="text-xs font-mono text-slate-400">Ректорат УУНиТ / Управление проектного обучения</div>
-          <h1 className="text-xl font-bold text-white tracking-tight mt-0.5">
+          <div className="text-xs text-slate-500 font-medium">Ректорат УУНиТ / Управление проектного обучения</div>
+          <h1 className="text-2xl font-bold text-slate-900 tracking-tight mt-0.5">
             Сводная аналитика индустриального взаимодействия
           </h1>
         </div>
 
-        {/* Linear style export buttons */}
-        <div className="flex items-center space-x-2 font-mono text-xs">
+        {/* Export buttons */}
+        <div className="flex items-center space-x-2 text-xs">
           <button
             onClick={() => handleDownload('excel', 'cases')}
-            className="px-3 py-1.5 rounded-lg bg-[#0D1322] hover:bg-[#162038] border border-[#1A2338] text-slate-200 transition flex items-center space-x-1.5"
+            className="px-3.5 py-2 rounded-md bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 font-medium transition flex items-center space-x-1.5 shadow-xs"
           >
-            <FileSpreadsheet className="w-3.5 h-3.5 text-[#34D399]" />
+            <FileSpreadsheet className="w-4 h-4 text-emerald-700" />
             <span>Excel (.xlsx)</span>
           </button>
 
           <button
             onClick={() => handleDownload('pdf', 'cases')}
-            className="px-3 py-1.5 rounded-lg bg-[#0D1322] hover:bg-[#162038] border border-[#1A2338] text-slate-200 transition flex items-center space-x-1.5"
+            className="px-3.5 py-2 rounded-md bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 font-medium transition flex items-center space-x-1.5 shadow-xs"
           >
-            <FileText className="w-3.5 h-3.5 text-[#FB7185]" />
+            <FileText className="w-4 h-4 text-rose-700" />
             <span>PDF Отчёт</span>
           </button>
 
           <button
             onClick={() => handleDownload('csv', 'cases')}
-            className="px-2.5 py-1.5 rounded-lg bg-[#0D1322] hover:bg-[#162038] border border-[#1A2338] text-slate-400 hover:text-white transition"
+            className="px-3 py-2 rounded-md bg-white hover:bg-slate-50 border border-slate-300 text-slate-700 font-medium transition shadow-xs"
           >
             CSV
           </button>
@@ -100,68 +100,68 @@ export const AnalyticsDashboard: React.FC = () => {
       </div>
 
       {/* KPI 4 Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 font-mono">
-        <div className="p-4 rounded-xl uunit-panel space-y-1">
-          <div className="text-slate-400 text-[11px] uppercase">ИТ-кейсы в семестре</div>
-          <div className="text-2xl font-bold text-white tracking-tight">{data.overview.total_cases}</div>
-          <div className="text-[10px] text-slate-500">{data.overview.cases_active} открыто для заявок</div>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="p-5 rounded-lg bg-white border border-slate-200 shadow-xs space-y-1">
+          <div className="text-slate-500 text-xs font-medium uppercase tracking-wide">ИТ-кейсы в семестре</div>
+          <div className="text-3xl font-bold text-slate-900 tracking-tight">{data.overview.total_cases}</div>
+          <div className="text-xs text-slate-500">{data.overview.cases_active} открыто для заявок</div>
         </div>
 
-        <div className="p-4 rounded-xl uunit-panel space-y-1">
-          <div className="text-slate-400 text-[11px] uppercase">Призовой фонд</div>
-          <div className="text-2xl font-bold text-[#34D399] tracking-tight">
+        <div className="p-5 rounded-lg bg-white border border-slate-200 shadow-xs space-y-1">
+          <div className="text-slate-500 text-xs font-medium uppercase tracking-wide">Призовой фонд</div>
+          <div className="text-3xl font-bold text-emerald-700 tracking-tight">
             {data.overview.total_prize_fund.toLocaleString('ru-RU')} ₽
           </div>
-          <div className="text-[10px] text-slate-500">Гарантия выплат партнёров</div>
+          <div className="text-xs text-slate-500">Гарантия выплат партнёров</div>
         </div>
 
-        <div className="p-4 rounded-xl uunit-panel space-y-1">
-          <div className="text-slate-400 text-[11px] uppercase">Компании-партнёры</div>
-          <div className="text-2xl font-bold text-white tracking-tight">{data.overview.total_companies}</div>
-          <div className="text-[10px] text-slate-500">Аккредитованы в УУНиТ</div>
+        <div className="p-5 rounded-lg bg-white border border-slate-200 shadow-xs space-y-1">
+          <div className="text-slate-500 text-xs font-medium uppercase tracking-wide">Компании-партнёры</div>
+          <div className="text-3xl font-bold text-slate-900 tracking-tight">{data.overview.total_companies}</div>
+          <div className="text-xs text-slate-500">Аккредитованы в УУНиТ</div>
         </div>
 
-        <div className="p-4 rounded-xl uunit-panel space-y-1">
-          <div className="text-slate-400 text-[11px] uppercase">Студентов в проектной работе</div>
-          <div className="text-2xl font-bold text-white tracking-tight">{data.overview.total_students}</div>
-          <div className="text-[10px] text-slate-500">Формируют портфолио</div>
+        <div className="p-5 rounded-lg bg-white border border-slate-200 shadow-xs space-y-1">
+          <div className="text-slate-500 text-xs font-medium uppercase tracking-wide">Студентов в проектах</div>
+          <div className="text-3xl font-bold text-slate-900 tracking-tight">{data.overview.total_students}</div>
+          <div className="text-xs text-slate-500">Формируют портфолио</div>
         </div>
       </div>
 
       {/* Charts Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         
         {/* Directions */}
-        <div className="p-4 rounded-xl uunit-panel space-y-3">
-          <h3 className="text-xs font-mono uppercase font-bold text-slate-300">
+        <div className="p-5 rounded-lg bg-white border border-slate-200 shadow-xs space-y-3">
+          <h3 className="text-xs uppercase font-bold text-slate-800 tracking-wide">
             Распределение по ИТ-направлениям:
           </h3>
-          <div className="h-56 w-full">
+          <div className="h-60 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={data.directions} margin={{ top: 5, right: 5, left: -25, bottom: 15 }}>
-                <XAxis dataKey="name" stroke="#64748B" fontSize={9} tickLine={false} interval={0} angle={-15} textAnchor="end" />
-                <YAxis stroke="#64748B" fontSize={10} tickLine={false} allowDecimals={false} />
-                <Tooltip contentStyle={{ backgroundColor: '#090E1A', borderColor: '#1E293B', borderRadius: '8px', fontSize: '11px', fontFamily: 'monospace' }} />
-                <Bar dataKey="count" fill="#2563EB" radius={[4, 4, 0, 0]} />
+              <BarChart data={data.directions} margin={{ top: 10, right: 10, left: -20, bottom: 20 }}>
+                <XAxis dataKey="name" stroke="#64748B" fontSize={10} tickLine={false} interval={0} angle={-15} textAnchor="end" />
+                <YAxis stroke="#64748B" fontSize={11} tickLine={false} allowDecimals={false} />
+                <Tooltip contentStyle={{ backgroundColor: '#FFFFFF', borderColor: '#CBD5E1', borderRadius: '6px', fontSize: '12px', color: '#0F172A' }} />
+                <Bar dataKey="count" fill="#1D4ED8" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
 
         {/* Categories */}
-        <div className="p-4 rounded-xl uunit-panel space-y-3">
-          <h3 className="text-xs font-mono uppercase font-bold text-slate-300">
+        <div className="p-5 rounded-lg bg-white border border-slate-200 shadow-xs space-y-3">
+          <h3 className="text-xs uppercase font-bold text-slate-800 tracking-wide">
             Категории кейсов (п. 5.4 ТЗ):
           </h3>
-          <div className="h-56 w-full flex items-center justify-center">
+          <div className="h-60 w-full flex items-center justify-center">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
                   data={categoryChartData}
                   cx="50%"
                   cy="50%"
-                  innerRadius={45}
-                  outerRadius={75}
+                  innerRadius={50}
+                  outerRadius={80}
                   paddingAngle={4}
                   dataKey="value"
                   label={({ name, percent }: any) => `${name} (${(percent * 100).toFixed(0)}%)`}
@@ -170,7 +170,7 @@ export const AnalyticsDashboard: React.FC = () => {
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip contentStyle={{ backgroundColor: '#090E1A', borderColor: '#1E293B', borderRadius: '8px', fontSize: '11px', fontFamily: 'monospace' }} />
+                <Tooltip contentStyle={{ backgroundColor: '#FFFFFF', borderColor: '#CBD5E1', borderRadius: '6px', fontSize: '12px', color: '#0F172A' }} />
               </PieChart>
             </ResponsiveContainer>
           </div>
@@ -179,32 +179,36 @@ export const AnalyticsDashboard: React.FC = () => {
       </div>
 
       {/* Partners Table */}
-      <div className="p-4 rounded-xl uunit-panel space-y-3">
-        <h3 className="text-xs font-mono uppercase font-bold text-slate-300">
+      <div className="p-5 rounded-lg bg-white border border-slate-200 shadow-xs space-y-3">
+        <h3 className="text-xs uppercase font-bold text-slate-800 tracking-wide">
           Реестр компаний-партнёров УУНиТ:
         </h3>
-        <table className="w-full text-left text-xs text-slate-300 font-mono">
-          <thead className="bg-[#070A12] text-[10px] uppercase text-slate-400 border-b border-[#1E293B]">
-            <tr>
-              <th className="py-2 px-3">Организация</th>
-              <th className="py-2 px-3">Размещено кейсов</th>
-              <th className="py-2 px-3">Завершено проектов</th>
-              <th className="py-2 px-3">Статус в УУНиТ</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-[#172033]">
-            {data.top_companies.map((c, i) => (
-              <tr key={i} className="hover:bg-[#11182B]">
-                <td className="py-2.5 px-3 font-semibold text-white font-sans">{c.name}</td>
-                <td className="py-2.5 px-3">{c.cases_count}</td>
-                <td className="py-2.5 px-3">{c.completed_count}</td>
-                <td className="py-2.5 px-3">
-                  <span className="text-[#34D399] font-medium text-[11px]">Аккредитован</span>
-                </td>
+        <div className="border border-slate-200 rounded-md overflow-hidden">
+          <table className="w-full text-left text-xs text-slate-700">
+            <thead className="bg-slate-50 text-xs font-semibold text-slate-600 border-b border-slate-200">
+              <tr>
+                <th className="py-2.5 px-4">Организация</th>
+                <th className="py-2.5 px-4">Размещено кейсов</th>
+                <th className="py-2.5 px-4">Завершено проектов</th>
+                <th className="py-2.5 px-4">Статус в УУНиТ</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {data.top_companies.map((c, i) => (
+                <tr key={i} className="hover:bg-slate-50 transition-colors">
+                  <td className="py-3 px-4 font-semibold text-slate-900">{c.name}</td>
+                  <td className="py-3 px-4 text-slate-600">{c.cases_count}</td>
+                  <td className="py-3 px-4 text-slate-600">{c.completed_count}</td>
+                  <td className="py-3 px-4">
+                    <span className="text-xs px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 font-medium">
+                      Аккредитована
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
     </div>

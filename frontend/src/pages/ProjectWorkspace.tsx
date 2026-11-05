@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Layers, 
-  Upload, 
   CheckCircle2, 
   Clock, 
   GitBranch, 
   ExternalLink, 
-  FileText, 
-  Trophy, 
-  Star, 
-  UserCheck, 
   Send,
-  AlertCircle
+  Award,
+  Users
 } from 'lucide-react';
 import { CaseProject, Team, Submission, User } from '../types';
 import api from '../api';
@@ -149,7 +145,7 @@ export const ProjectWorkspace: React.FC<ProjectWorkspaceProps> = ({
         nomination_name: 'Лучшее прикладное решение семестра',
         reward_detail: currentCase.reward_description || 'Официальный диплом УУНиТ'
       });
-      alert(`Итог зафиксирован: команде присвоено ${awardPlace}!`);
+      alert(`Итог зафиксирован: команде присвоено призовое место!`);
     } catch (e: any) {
       alert(e.response?.data?.detail || 'Ошибка фиксации награды');
     }
@@ -157,10 +153,10 @@ export const ProjectWorkspace: React.FC<ProjectWorkspaceProps> = ({
 
   if (!currentCase) {
     return (
-      <div className="text-center py-20 uunit-card space-y-2">
-        <Layers className="w-8 h-8 text-slate-500 mx-auto" />
-        <h3 className="font-semibold text-white text-sm">Проект не выбран</h3>
-        <p className="text-xs text-slate-400">Выберите кейс из реестра для перехода в рабочее пространство.</p>
+      <div className="text-center py-20 bg-white border border-slate-200 rounded-lg p-8 space-y-3">
+        <Layers className="w-10 h-10 text-slate-400 mx-auto" />
+        <h3 className="font-semibold text-slate-900 text-sm">Проект не выбран</h3>
+        <p className="text-xs text-slate-500">Выберите кейс из реестра для перехода в рабочее пространство.</p>
       </div>
     );
   }
@@ -168,41 +164,41 @@ export const ProjectWorkspace: React.FC<ProjectWorkspaceProps> = ({
   const totalScore = Object.values(scores).reduce((a, b) => a + b, 0);
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-6">
       
       {/* Top Academic Subheader */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-[#0B101E] rounded-xl border border-[#1A2338] gap-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-white rounded-lg border border-slate-200 shadow-xs gap-3">
         <div>
-          <div className="flex items-center space-x-2 text-[11px] font-mono text-slate-400">
-            <span>Проектный контур УУНиТ</span>
+          <div className="flex items-center space-x-2 text-xs text-slate-500 font-medium">
+            <span>Проектный практикум УУНиТ</span>
             <span>/</span>
-            <span className="text-[#60A5FA]">{currentCase.company_name}</span>
+            <span className="text-blue-700 font-semibold">{currentCase.company_name}</span>
           </div>
-          <h1 className="text-base sm:text-lg font-bold text-white tracking-tight mt-0.5">
+          <h1 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight mt-0.5">
             {currentCase.title}
           </h1>
         </div>
 
         {selectedTeam && (
-          <div className="flex items-center space-x-2 bg-[#070A12] px-3 py-1.5 rounded-lg border border-[#1E293B] text-xs font-mono">
-            <span className="text-slate-400">Команда:</span>
-            <span className="font-bold text-white">{selectedTeam.name}</span>
-            <span className="text-slate-500">•</span>
-            <span className="text-slate-300">TL: {selectedTeam.team_lead_name}</span>
+          <div className="flex items-center space-x-2 bg-slate-50 px-3 py-1.5 rounded-md border border-slate-200 text-xs">
+            <span className="text-slate-500">Команда:</span>
+            <span className="font-bold text-slate-900">{selectedTeam.name}</span>
+            <span className="text-slate-300">•</span>
+            <span className="text-slate-600">Тимлид: {selectedTeam.team_lead_name}</span>
           </div>
         )}
       </div>
 
       {/* Main Split Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
         {/* Left Column (5/12): 7 Milestones Tracker */}
-        <div className="lg:col-span-5 uunit-panel rounded-xl p-4 space-y-3">
-          <div className="flex items-center justify-between pb-2 border-b border-[#1E293B]">
-            <h3 className="text-xs font-mono uppercase font-bold text-slate-300">
+        <div className="lg:col-span-5 bg-white border border-slate-200 rounded-lg p-5 space-y-3 shadow-xs">
+          <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+            <h3 className="text-xs uppercase font-bold text-slate-800 tracking-wide">
               График контрольных точек (7 этапов):
             </h3>
-            <span className="text-[10px] font-mono text-slate-500">п. 5.10 ТЗ</span>
+            <span className="text-xs text-slate-400">п. 5.10 ТЗ</span>
           </div>
 
           <div className="space-y-2">
@@ -212,25 +208,26 @@ export const ProjectWorkspace: React.FC<ProjectWorkspaceProps> = ({
               return (
                 <div 
                   key={m.id}
-                  className={`p-2.5 rounded-lg border transition text-xs font-mono ${
-                    isAccepted ? 'bg-[#064E3B]/10 border-[#059669]/30 text-slate-200' :
-                    isInProgress ? 'bg-[#1E3A8A]/10 border-[#2563EB]/40 text-white' :
-                    'bg-[#070A12] border-[#172033] text-slate-400'
+                  className={`p-3 rounded-md border text-xs transition ${
+                    isAccepted ? 'bg-emerald-50/60 border-emerald-200 text-slate-800' :
+                    isInProgress ? 'bg-blue-50/60 border-blue-200 text-slate-900' :
+                    'bg-slate-50 border-slate-200 text-slate-600'
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="font-semibold text-slate-100">
+                    <span className="font-semibold text-slate-900">
                       {m.order_index}. {m.title}
                     </span>
-                    <span className={`text-[10px] px-1.5 py-0.2 rounded font-medium ${
-                      isAccepted ? 'text-[#34D399] bg-[#064E3B]/40' :
-                      isInProgress ? 'text-[#60A5FA] bg-[#1E3A8A]/40' : 'text-slate-500'
+                    <span className={`text-[11px] px-2 py-0.5 rounded font-medium ${
+                      isAccepted ? 'text-emerald-800 bg-emerald-100 border border-emerald-200' :
+                      isInProgress ? 'text-blue-800 bg-blue-100 border border-blue-200' : 
+                      'text-slate-500 bg-slate-100 border border-slate-200'
                     }`}>
-                      {isAccepted ? '✓ Принят' : isInProgress ? 'В работе' : 'Ожидает'}
+                      {isAccepted ? 'Зачтен' : isInProgress ? 'В работе' : 'Ожидает'}
                     </span>
                   </div>
                   {m.reviewer_comment && (
-                    <div className="text-[10px] text-[#34D399] mt-1 font-sans">
+                    <div className="text-[11px] text-slate-600 mt-1.5 italic bg-white/70 p-1.5 rounded border border-slate-200">
                       Замечание куратора: «{m.reviewer_comment}»
                     </div>
                   )}
@@ -244,30 +241,36 @@ export const ProjectWorkspace: React.FC<ProjectWorkspaceProps> = ({
         <div className="lg:col-span-7 space-y-4">
           
           {/* Sub-tabs */}
-          <div className="flex items-center space-x-1 border-b border-[#1E293B] pb-2">
+          <div className="flex items-center space-x-2 border-b border-slate-200 pb-2">
             <button
               onClick={() => setActiveTab('submissions')}
-              className={`px-3 py-1.5 rounded-md text-xs font-medium transition ${
-                activeTab === 'submissions' ? 'bg-[#1E293B] text-white' : 'text-slate-400 hover:text-white'
+              className={`px-3 py-1.5 rounded-md text-xs font-semibold transition ${
+                activeTab === 'submissions' 
+                  ? 'bg-blue-800 text-white' 
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
               }`}
             >
               Сдача решений и код (п. 5.11)
             </button>
             <button
               onClick={() => setActiveTab('review')}
-              className={`px-3 py-1.5 rounded-md text-xs font-medium transition ${
-                activeTab === 'review' ? 'bg-[#1E293B] text-white' : 'text-slate-400 hover:text-white'
+              className={`px-3 py-1.5 rounded-md text-xs font-semibold transition ${
+                activeTab === 'review' 
+                  ? 'bg-blue-800 text-white' 
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
               }`}
             >
               Оценка компании (10 критериев)
             </button>
             <button
               onClick={() => setActiveTab('team')}
-              className={`px-3 py-1.5 rounded-md text-xs font-medium transition ${
-                activeTab === 'team' ? 'bg-[#1E293B] text-white' : 'text-slate-400 hover:text-white'
+              className={`px-3 py-1.5 rounded-md text-xs font-semibold transition ${
+                activeTab === 'team' 
+                  ? 'bg-blue-800 text-white' 
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
               }`}
             >
-              Роли команды
+              Состав команды
             </button>
           </div>
 
@@ -276,8 +279,8 @@ export const ProjectWorkspace: React.FC<ProjectWorkspaceProps> = ({
             <div className="space-y-4">
               
               {/* Submission Form */}
-              <form onSubmit={handleSubmitSolution} className="uunit-card p-4 space-y-3">
-                <h4 className="text-xs font-mono uppercase font-bold text-slate-300">
+              <form onSubmit={handleSubmitSolution} className="bg-white border border-slate-200 rounded-lg p-5 space-y-3 shadow-xs">
+                <h4 className="text-xs uppercase font-bold text-slate-800 tracking-wide">
                   Форма сдачи финального решения:
                 </h4>
 
@@ -287,33 +290,33 @@ export const ProjectWorkspace: React.FC<ProjectWorkspaceProps> = ({
                     required
                     value={solutionDesc}
                     onChange={(e) => setSolutionDesc(e.target.value)}
-                    placeholder="Описание реализованного решения: архитектура, модули, результаты..."
-                    className="w-full p-2.5 rounded-lg bg-[#070A12] border border-[#1E293B] text-xs text-slate-200 focus:outline-none focus:border-[#3B82F6]"
+                    placeholder="Описание реализованного решения: архитектурные решения, модули, результаты..."
+                    className="w-full p-2.5 rounded-md bg-white border border-slate-300 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600"
                   />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   <input
                     type="url"
                     required
                     value={repoUrl}
                     onChange={(e) => setRepoUrl(e.target.value)}
                     placeholder="Ссылка на репозиторий GitHub"
-                    className="p-2 rounded-lg bg-[#070A12] border border-[#1E293B] text-xs text-slate-200 focus:outline-none focus:border-[#3B82F6]"
+                    className="p-2 rounded-md bg-white border border-slate-300 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600"
                   />
                   <input
                     type="url"
                     value={demoUrl}
                     onChange={(e) => setDemoUrl(e.target.value)}
-                    placeholder="Ссылка на работающий сервис / демо"
-                    className="p-2 rounded-lg bg-[#070A12] border border-[#1E293B] text-xs text-slate-200 focus:outline-none focus:border-[#3B82F6]"
+                    placeholder="Ссылка на рабочий сервис / демо"
+                    className="p-2 rounded-md bg-white border border-slate-300 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full py-2 rounded-lg bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-xs font-medium transition font-mono flex items-center justify-center space-x-1.5"
+                  className="w-full py-2 rounded-md bg-blue-800 hover:bg-blue-900 text-white text-xs font-semibold transition flex items-center justify-center space-x-1.5 shadow-xs"
                 >
                   <Send className="w-3.5 h-3.5" />
                   <span>{submitting ? 'Фиксация...' : 'Сдать проект на проверку компании'}</span>
@@ -321,12 +324,12 @@ export const ProjectWorkspace: React.FC<ProjectWorkspaceProps> = ({
               </form>
 
               {/* Submissions List */}
-              <div className="space-y-2">
-                <h4 className="text-xs font-mono uppercase text-slate-400 font-semibold">Журнал сдач:</h4>
+              <div className="space-y-2.5">
+                <h4 className="text-xs uppercase text-slate-500 font-semibold tracking-wide">Журнал сдач:</h4>
                 {submissions.map((s) => (
-                  <div key={s.id} className="uunit-panel rounded-lg p-3 space-y-2 text-xs">
-                    <div className="flex items-center justify-between text-[11px] font-mono">
-                      <span className="text-[#60A5FA] font-bold">
+                  <div key={s.id} className="bg-white border border-slate-200 rounded-lg p-4 space-y-2.5 text-xs shadow-xs">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-blue-800 font-bold">
                         {s.is_final ? 'Финальная сдача' : 'Промежуточный этап'}
                       </span>
                       <span className="text-slate-500">
@@ -334,31 +337,41 @@ export const ProjectWorkspace: React.FC<ProjectWorkspaceProps> = ({
                       </span>
                     </div>
 
-                    <p className="text-slate-300 text-xs">{s.solution_description}</p>
+                    <p className="text-slate-700 text-xs leading-relaxed">{s.solution_description}</p>
 
-                    <div className="flex items-center space-x-2 pt-1 font-mono text-[11px]">
+                    <div className="flex items-center space-x-2 pt-1">
                       {s.repository_url && (
-                        <a href={s.repository_url} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-white flex items-center space-x-1 bg-[#1E293B] px-2 py-0.5 rounded">
-                          <GitBranch className="w-3 h-3 text-[#60A5FA]" />
-                          <span>GitHub</span>
+                        <a 
+                          href={s.repository_url} 
+                          target="_blank" 
+                          rel="noreferrer" 
+                          className="text-slate-700 hover:text-blue-800 flex items-center space-x-1.5 bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-md border border-slate-200 text-xs font-medium"
+                        >
+                          <GitBranch className="w-3.5 h-3.5 text-slate-600" />
+                          <span>Репозиторий GitHub</span>
                         </a>
                       )}
                       {s.demo_url && (
-                        <a href={s.demo_url} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-white flex items-center space-x-1 bg-[#1E293B] px-2 py-0.5 rounded">
-                          <ExternalLink className="w-3 h-3 text-[#34D399]" />
-                          <span>Демо</span>
+                        <a 
+                          href={s.demo_url} 
+                          target="_blank" 
+                          rel="noreferrer" 
+                          className="text-slate-700 hover:text-blue-800 flex items-center space-x-1.5 bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-md border border-slate-200 text-xs font-medium"
+                        >
+                          <ExternalLink className="w-3.5 h-3.5 text-slate-600" />
+                          <span>Демо-сервис</span>
                         </a>
                       )}
                     </div>
 
                     {/* Review preview if present */}
                     {s.reviews && s.reviews.length > 0 && (
-                      <div className="mt-2 p-2.5 rounded bg-[#0A1224] border border-[#1E3A8A]/40 space-y-1">
-                        <div className="flex items-center justify-between text-xs font-mono">
-                          <span className="text-[#FBBF24] font-bold">Оценка: {s.reviews[0].total_score} / 100</span>
-                          <span className="text-[#34D399]">✓ Проект подтверждён</span>
+                      <div className="mt-3 p-3 rounded-md bg-emerald-50 border border-emerald-200 space-y-1">
+                        <div className="flex items-center justify-between text-xs font-semibold">
+                          <span className="text-emerald-900">Итоговая оценка: {s.reviews[0].total_score} / 100</span>
+                          <span className="text-emerald-800">Решение принято экспертом</span>
                         </div>
-                        <p className="text-[11px] text-slate-300 italic">«{s.reviews[0].company_feedback}»</p>
+                        <p className="text-xs text-slate-700 italic">«{s.reviews[0].company_feedback}»</p>
                       </div>
                     )}
                   </div>
@@ -370,17 +383,17 @@ export const ProjectWorkspace: React.FC<ProjectWorkspaceProps> = ({
 
           {/* TAB: Review (10 Criteria) */}
           {activeTab === 'review' && (
-            <div className="uunit-card p-4 space-y-4">
-              <div className="flex items-center justify-between pb-2 border-b border-[#1E293B]">
+            <div className="bg-white border border-slate-200 rounded-lg p-5 space-y-4 shadow-xs">
+              <div className="flex items-center justify-between pb-3 border-b border-slate-200">
                 <div>
-                  <h4 className="text-xs font-mono uppercase font-bold text-slate-200">
+                  <h4 className="text-xs uppercase font-bold text-slate-800 tracking-wide">
                     Оценка эксперта по 10 критериям (п. 5.12 ТЗ)
                   </h4>
-                  <p className="text-[11px] text-slate-400">Шкала: 1–10 баллов по каждому параметру</p>
+                  <p className="text-xs text-slate-500 mt-0.5">Шкала: 1–10 баллов по каждому параметру</p>
                 </div>
                 <div className="text-right">
-                  <div className="text-xl font-mono font-bold text-[#FBBF24]">{totalScore} / 100</div>
-                  <div className="text-[10px] text-slate-500 font-mono">Итоговый балл</div>
+                  <div className="text-2xl font-bold text-slate-900">{totalScore} <span className="text-slate-400 text-sm font-normal">/ 100</span></div>
+                  <div className="text-xs text-slate-500">Итоговый балл</div>
                 </div>
               </div>
 
@@ -398,10 +411,10 @@ export const ProjectWorkspace: React.FC<ProjectWorkspaceProps> = ({
                   { key: 'deadlines', label: '9. Соблюдение сроков' },
                   { key: 'teamwork', label: '10. Командная работа' },
                 ].map(({ key, label }) => (
-                  <div key={key} className="p-2 rounded bg-[#070A12] border border-[#172033] space-y-1">
-                    <div className="flex items-center justify-between text-[11px] font-mono text-slate-300">
-                      <span>{label}</span>
-                      <span className="text-[#60A5FA] font-bold">{(scores as any)[key]}</span>
+                  <div key={key} className="p-2.5 rounded-md bg-slate-50 border border-slate-200 space-y-1">
+                    <div className="flex items-center justify-between text-xs text-slate-700">
+                      <span className="font-medium">{label}</span>
+                      <span className="text-blue-800 font-bold">{(scores as any)[key]}</span>
                     </div>
                     <input
                       type="range"
@@ -409,14 +422,14 @@ export const ProjectWorkspace: React.FC<ProjectWorkspaceProps> = ({
                       max="10"
                       value={(scores as any)[key]}
                       onChange={(e) => setScores({ ...scores, [key]: parseInt(e.target.value) })}
-                      className="w-full accent-[#2563EB]"
+                      className="w-full accent-blue-700"
                     />
                   </div>
                 ))}
               </div>
 
               <div>
-                <label className="block text-[11px] font-mono text-slate-300 mb-1">
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
                   Официальное заключение компании-заказчика:
                 </label>
                 <textarea
@@ -424,28 +437,29 @@ export const ProjectWorkspace: React.FC<ProjectWorkspaceProps> = ({
                   value={feedback}
                   onChange={(e) => setFeedback(e.target.value)}
                   placeholder="Отзыв компании для внесения в подтверждённое портфолио студента..."
-                  className="w-full p-2.5 rounded-lg bg-[#070A12] border border-[#1E293B] text-xs text-slate-200 focus:outline-none focus:border-[#3B82F6]"
+                  className="w-full p-2.5 rounded-md bg-white border border-slate-300 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600"
                 />
               </div>
 
-              <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-[#1E293B]">
+              <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-200">
                 <div className="flex items-center space-x-2">
                   <select
                     value={awardPlace}
                     onChange={(e) => setAwardPlace(e.target.value)}
-                    className="p-1.5 rounded-lg bg-[#070A12] border border-[#1E293B] text-xs font-mono text-white"
+                    className="p-2 rounded-md bg-white border border-slate-300 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-600"
                   >
-                    <option value="1ST_PLACE">🥇 1 место (Победитель)</option>
-                    <option value="2ND_PLACE">🥈 2 место</option>
-                    <option value="3RD_PLACE">🥉 3 место</option>
-                    <option value="NOMINATION_WINNER">Номинация</option>
+                    <option value="1ST_PLACE">1 место (Победитель)</option>
+                    <option value="2ND_PLACE">2 место</option>
+                    <option value="3RD_PLACE">3 место</option>
+                    <option value="NOMINATION_WINNER">Победитель в номинации</option>
                   </select>
                   <button
                     type="button"
                     onClick={handleAward}
-                    className="px-3 py-1.5 rounded-lg bg-[#78350F]/40 border border-[#D97706]/40 hover:bg-[#78350F]/60 text-[#FBBF24] text-xs font-mono font-medium transition"
+                    className="px-3.5 py-2 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold transition border border-slate-300 flex items-center space-x-1"
                   >
-                    Присудить
+                    <Award className="w-3.5 h-3.5 text-blue-700" />
+                    <span>Присудить награду</span>
                   </button>
                 </div>
 
@@ -453,9 +467,9 @@ export const ProjectWorkspace: React.FC<ProjectWorkspaceProps> = ({
                   type="button"
                   onClick={handleReview}
                   disabled={reviewing}
-                  className="px-4 py-1.5 rounded-lg bg-[#2563EB] hover:bg-[#1D4ED8] text-white text-xs font-mono font-medium transition"
+                  className="px-4 py-2 rounded-md bg-blue-800 hover:bg-blue-900 text-white text-xs font-semibold transition shadow-xs"
                 >
-                  {reviewing ? 'Сохранение...' : 'Зафиксировать оценку'}
+                  {reviewing ? 'Сохранение...' : 'Зафиксировать оценку в реестре'}
                 </button>
               </div>
             </div>
@@ -463,17 +477,17 @@ export const ProjectWorkspace: React.FC<ProjectWorkspaceProps> = ({
 
           {/* TAB: Team */}
           {activeTab === 'team' && (
-            <div className="uunit-card p-4 space-y-2">
-              <h4 className="text-xs font-mono uppercase font-bold text-slate-300 pb-1 border-b border-[#1E293B]">
+            <div className="bg-white border border-slate-200 rounded-lg p-5 space-y-3 shadow-xs">
+              <h4 className="text-xs uppercase font-bold text-slate-800 tracking-wide pb-2 border-b border-slate-100">
                 Штатное расписание команды проекта (п. 5.8 ТЗ):
               </h4>
               {selectedTeam?.members.map((m) => (
-                <div key={m.id} className="p-2.5 rounded-lg bg-[#070A12] border border-[#172033] flex items-center justify-between text-xs">
+                <div key={m.id} className="p-3 rounded-md bg-slate-50 border border-slate-200 flex items-center justify-between text-xs">
                   <div>
-                    <div className="font-semibold text-white">{m.user_name}</div>
-                    <div className="text-[10px] text-slate-400 font-mono">{m.competencies.join(', ')}</div>
+                    <div className="font-semibold text-slate-900">{m.user_name}</div>
+                    <div className="text-xs text-slate-500 mt-0.5">{m.competencies.join(', ')}</div>
                   </div>
-                  <span className="font-mono text-[11px] px-2 py-0.5 rounded bg-[#172554] text-[#60A5FA] border border-[#1E40AF]/50">
+                  <span className="text-xs px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-800 border border-blue-200 font-medium">
                     {m.role}
                   </span>
                 </div>

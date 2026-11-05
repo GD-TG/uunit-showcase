@@ -60,9 +60,9 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#070A12] text-slate-100 flex flex-col font-sans selection:bg-[#2563EB]/40 selection:text-white">
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans">
       
-      {/* Slim Header */}
+      {/* Header */}
       <Navbar
         activeTab={activeTab}
         setActiveTab={(tab) => {
@@ -73,7 +73,7 @@ export function App() {
         onSwitchRole={switchRole}
       />
 
-      {/* Main Viewport */}
+      {/* Main Content Area */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6">
         
         {activeTab === 'cases' && (
@@ -124,15 +124,15 @@ export function App() {
       </main>
 
       {/* University Academic Footer */}
-      <footer className="border-t border-[#172033] py-4 bg-[#090E1A] mt-auto text-xs font-mono">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-slate-400">
+      <footer className="border-t border-slate-200 py-6 bg-white mt-auto text-xs text-slate-500">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-2">
           <div className="flex items-center space-x-2">
-            <span className="font-semibold text-slate-300">АИС «Витрина ИТ-проектов»</span>
+            <span className="font-semibold text-slate-700">АИС «Витрина ИТ-проектов»</span>
             <span>•</span>
             <span>ФГБОУ ВО «Уфимский университет науки и технологий» (УУНиТ)</span>
           </div>
-          <div className="text-[11px] text-slate-500">
-            Python 3.12 (FastAPI) • PostgreSQL 16 • React 19 • Linear UI System
+          <div className="text-slate-400">
+            Разработано для проектного практикума и взаимодействия с индустриальными партнерами
           </div>
         </div>
       </footer>
